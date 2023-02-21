@@ -1,0 +1,7 @@
+---
+version: 2
+
+models:
+  - name: stg_market_top
+    description: 'Simple transformation to move from raw to stg'
+

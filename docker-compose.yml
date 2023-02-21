@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  # dbt container
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: dbt-snowflake:latest
+    container_name: agent_snowflake
+    environment:
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - ACCOUNT=${ACCOUNT}
+    stdin_open: true
+    tty: true
+    restart: on-failure:3
+    volumes:
+      - ./transformations:/usr/src/app
+      - ./transformations/profiles.yml:/root/.dbt/profiles.yml
+
+  # dbt docs
+  dbt-docs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: dbt-transformations-app:latest
+    container_name: dbt-docs
+    environment:
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - ACCOUNT=${ACCOUNT}
+    ports:
+      - "8001:8001"
+    restart: on-failure:3
+    volumes:
+      - ./transformations:/usr/src/app
+      - ./transformations/profiles.yml:/root/.dbt/profiles.yml
+    command: /bin/bash -c "dbt deps && dbt docs generate && dbt docs serve --port 8001"

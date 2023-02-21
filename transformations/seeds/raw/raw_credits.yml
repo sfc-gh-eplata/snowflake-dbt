@@ -1,0 +1,17 @@
+---
+version: 2
+
+seeds:
+  - name: raw_credits
+    description: Netflix Dataset Kaggle.
+    database: "{{ target.database }}"
+    schema: "{{ target.schema }}"
+    config:
+      enabled: true
+      quote_columns: false
+    columns:
+      - name: person_id
+      - name: id
+      - name: name
+      - name: character
+      - name: role

@@ -1,0 +1,27 @@
+---
+version: 2
+
+seeds:
+  - name: raw_titles
+    description: Netflix Dataset Kaggle.
+    database: "{{ target.database }}"
+    schema: "{{ target.schema }}"
+    config:
+      enabled: true
+      quote_columns: false
+    columns:
+      - name: id
+      - name: title
+      - name: type
+      - name: description
+      - name: release_year
+      - name: age_certification
+      - name: runtime
+      - name: genres
+      - name: production_countries
+      - name: seasons
+      - name: imdb_id
+      - name: imdb_score
+      - name: imdb_votes
+      - name: tmdb_popularity
+      - name: tmdb_score

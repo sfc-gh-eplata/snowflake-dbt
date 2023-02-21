@@ -1,0 +1,30 @@
+---
+version: 2
+
+models:
+  - name: stg_market_region_enhance
+    description: 'Simple transformation to move from raw to stg'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - COUNTRY_MARKET_REGION_ID
+            - COUNTRY_ID
+            - MARKET_REGION_NAME
+            - SYS_UPDATE_TS
+    columns:
+      - name: COUNTRY_MARKET_REGION_ID
+        description: 'COUNTRY_MARKET_REGION_ID'
+        tests:
+          - not_null
+      - name: COUNTRY_ID
+        description: 'COUNTRY_ID'
+        tests:
+          - not_null
+      - name: MARKET_REGION_NAME
+        description: 'MARKET_REGION_NAME'
+        tests:
+          - not_null
+      - name: SYS_UPDATE_TS
+        description: 'SYS_UPDATE_TS'
+        tests:
+          - not_null

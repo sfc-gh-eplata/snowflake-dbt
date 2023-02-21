@@ -1,0 +1,21 @@
+---
+version: 2
+
+models:
+  - name: stg_top_imdb_score_movies_filter
+    description: 'A bit more complex transformation to move from raw to stg'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - RELEASE_YEAR
+            - NUMBER_OF_ACTORS
+    columns:
+      - name: RELEASE_YEAR
+        description: 'RELEASE_YEAR'
+        tests:
+          - not_null
+      - name: NUMBER_OF_ACTORS
+        description: 'NUMBER_OF_ACTORS'
+        tests:
+          - not_null
+

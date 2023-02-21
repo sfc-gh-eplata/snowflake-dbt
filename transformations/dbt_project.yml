@@ -1,0 +1,81 @@
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'transformations'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'aws_eu_central'
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+
+on-run-start:
+  - "ALTER WAREHOUSE SMALL_SNOWPARK_DBT SET WAREHOUSE_SIZE = MEDIUM SCALING_POLICY = STANDARD ENABLE_QUERY_ACCELERATION = TRUE;"
+on-run-end:
+  - "ALTER WAREHOUSE SMALL_SNOWPARK_DBT SET WAREHOUSE_SIZE = SMALL SCALING_POLICY = ECONOMY ENABLE_QUERY_ACCELERATION = FALSE;"
+
+# In this example config, we tell dbt to build all models in the example/ directory
+# as tables. These settings can be overridden in the individual model files
+# using the `{{ config(...) }}` macro.
+seeds:
+  transformations:
+    +snowflake_warehouse: "XSMALL_SNOWPARK_DBT"
+    raw:
+      +schema: RAW
+      +tags: "RAW"
+      raw_market_region:
+        +columns_types:
+          country_market_region_id: INTEGER
+          country_id: INTEGER
+          market_region_name: VARCHAR
+          sys_update_ts: TIMESTAMP
+      raw_credits:
+        +columns_types:
+          person_id: VARCHAR
+          id: VARCHAR
+          name: VARCHAR
+          character: VARCHAR
+          role: VARCHAR
+      raw_titles:
+        +columns_types:
+          id: VARCHAR(200)
+          title: VARCHAR(200)
+          type: VARCHAR(200)
+          description: VARCHAR(1800)
+          release_year: VARCHAR(200)
+          age_certification: VARCHAR(200)
+          runtime: VARCHAR(200)
+          genres: VARCHAR(200)
+          production_countries: VARCHAR(200)
+          seasons: VARCHAR(200)
+          imdb_id: VARCHAR(200)
+          imdb_score: VARCHAR(200)
+          imdb_votes: VARCHAR(200)
+          tmdb_popularity: VARCHAR(200)
+          tmdb_score: VARCHAR(200)
+
+models:
+  transformations:
+    +snowflake_warehouse: "SMALL_SNOWPARK_DBT"
+    stg:
+      +schema: STG
+      +tags: "STG"
+      +materialized: table
+      +transient: true

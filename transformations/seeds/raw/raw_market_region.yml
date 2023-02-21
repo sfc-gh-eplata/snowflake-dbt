@@ -1,0 +1,22 @@
+---
+version: 2
+
+seeds:
+  - name: raw_market_region
+    description: A mapping of market region to country code id
+    database: "{{ target.database }}"
+    schema: "{{ target.schema }}"
+    columns:
+      - name: country_market_region_id
+        tests:
+          - not_null
+      - name: country_id
+        tests:
+          - unique
+          - not_null
+      - name: market_region_name
+        tests:
+          - not_null
+      - name: sys_update_ts
+        tests:
+          - not_null

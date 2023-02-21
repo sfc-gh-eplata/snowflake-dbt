@@ -1,0 +1,6 @@
+---
+version: 2
+
+models:
+  - name: stg_market_ephemeral_one
+    description: 'Simple transformation to move from raw to stg'
