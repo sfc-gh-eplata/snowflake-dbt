@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: sources
+    database: SNOWPARK_DBT_OTHER_DB
+    schema: PUBLIC
+    tables:
+      - name: source_table_other_db
